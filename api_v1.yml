@@ -1,0 +1,196 @@
+openapi: 3.0.3
+info:
+  title: Booleans-as-a-Service
+  version: "1.0.0"
+  description: |
+    Booleans-as-a-Service provides a simplistic API to create, read, update and delete boolean values.
+  license:
+    name: MIT
+    url: https://saschazar.mit-license.org/
+externalDocs:
+  description: Visit the Github repository
+  url: https://github.com/saschazar21/go-baas
+servers:
+  - url: https://go-baas.netlify.app/api/v1
+tags:
+  - name: New
+    description: Create new Boolean entries
+  - name: Existing
+    description: Manage existing Boolean entries
+paths:
+  /booleans:
+    post:
+      tags:
+        - New
+      summary: Create a new Boolean entry
+      description: Create a new Boolean entry
+      operationId: createBoolean
+      parameters:
+        - name: expires_at
+          in: query
+          description: |-
+            Unix epoch time stamp in seconds, when entry expires.
+            Is prioritized over expires_in.
+          schema:
+            type: integer
+            format: int64
+        - name: expires_in
+          in: query
+          description: Amount of seconds from now until the entry expires
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new Boolean entry in the database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Boolean"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Boolean"
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooleanWithId"
+        400:
+          description: Malformatted request
+  /booleans/{id}:
+    get:
+      tags:
+        - Existing
+      summary: Retrieve a Boolean entry
+      description: Retrieve a Boolean entry
+      operationId: getBooleanById
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Boolean
+          required: true
+          schema:
+            type: string
+            example: asdf1234
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooleanWithId"
+        404:
+          description: Boolean ID does not exist
+    put:
+      tags:
+        - Existing
+      summary: Update an existing Boolean entry
+      description: Update an existing Boolean entry
+      operationId: updateBooleanById
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Boolean
+          required: true
+          schema:
+            type: string
+            example: asdf1234
+        - name: expires_at
+          in: query
+          description: |-
+            Unix epoch time stamp in seconds, when entry expires.
+            Is prioritized over expires_in.
+          schema:
+            type: integer
+            format: int64
+        - name: expires_in
+          in: query
+          description: Amount of seconds from now until the entry expires
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new Boolean entry in the database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Boolean"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Boolean"
+      responses:
+        200:
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooleanWithId"
+        400:
+          description: Malformatted request
+        404:
+          description: Boolean ID does not exist
+    patch:
+      tags:
+        - Existing
+      summary: Toggle an existing Boolean value
+      description: Toggle an existing Boolean value
+      operationId: toggleBooleanById
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Boolean
+          required: true
+          schema:
+            type: string
+            example: asdf1234
+      responses:
+        200:
+          description: Successful toggle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooleanWithId"
+        404:
+          description: Boolean ID does not exist
+    delete:
+      tags:
+        - Existing
+      summary: Delete an existing Boolean value
+      description: Toggle an existing Boolean value
+      operationId: deleteBooleanById
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Boolean
+          required: true
+          schema:
+            type: string
+            example: asdf1234
+      responses:
+        204:
+          description: Successful delete
+
+components:
+  schemas:
+    Boolean:
+      type: object
+      properties:
+        label:
+          type: string
+          example: A short description
+        value:
+          type: boolean
+          example: true
+    BooleanWithId:
+      type: object
+      properties:
+        id:
+          type: string
+          example: asdf1234
+        label:
+          type: string
+          example: A short description
+        value:
+          type: boolean
+          example: true
