@@ -9,5 +9,5 @@ import (
 )
 
 func main() {
-	lambda.Start(httpadapter.New(http.HandlerFunc(v1.HandleBooleanById)))
+	lambda.Start(httpadapter.New(http.HandlerFunc(v1.HandleBooleanById)).ProxyWithContext)
 }

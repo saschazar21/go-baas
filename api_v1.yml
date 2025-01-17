@@ -58,6 +58,8 @@ paths:
                 $ref: "#/components/schemas/BooleanWithId"
         400:
           description: Malformatted request
+        415:
+          description: Unsupported content-type header detected
   /booleans/{id}:
     get:
       tags:
@@ -130,6 +132,8 @@ paths:
           description: Malformatted request
         404:
           description: Boolean ID does not exist
+        415:
+          description: Unsupported content-type header detected
     patch:
       tags:
         - Existing
@@ -157,7 +161,7 @@ paths:
       tags:
         - Existing
       summary: Delete an existing Boolean value
-      description: Toggle an existing Boolean value
+      description: Delete an existing Boolean value
       operationId: deleteBooleanById
       parameters:
         - name: id

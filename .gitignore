@@ -1,4 +1,6 @@
 .env
+/functions
+/public
 
 # Created by https://www.toptal.com/developers/gitignore/api/go,vercel,remix+netlify
 # Edit at https://www.toptal.com/developers/gitignore?templates=go,vercel,remix+netlify

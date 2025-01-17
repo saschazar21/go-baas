@@ -1,0 +1,26 @@
+[build]
+  command = "make build"
+  functions = "functions"
+  publish = "public"
+
+[build.environment]
+  CGO_ENABLED = 0
+  GO_IMPORT_PATH = "github.com/saschazar21/go-baas"
+  GO111MODULE = "on"
+  GOARCH = "amd64"
+  GOOS = "linux"
+
+[template.environment]
+  REDIS_URL = "The redis connection URL in the following format: redis://localhost:6379"
+
+[[redirects]]
+  from = "/api/v1/booleans"
+  to = "/.netlify/functions/v1_booleans"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/v1/booleans/:id"
+  to = "/.netlify/functions/v1_boolean-by-id"
+  status = 200
+  force = true

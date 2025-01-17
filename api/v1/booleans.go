@@ -66,5 +66,10 @@ func HandleBooleans(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	params := r.URL.Query()
+	params.Del("id")
+
+	r.URL.RawQuery = params.Encode()
+
 	handleCreateBoolean(w, r)
 }

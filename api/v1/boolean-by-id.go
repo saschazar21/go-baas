@@ -3,6 +3,7 @@ package v1
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/saschazar21/go-baas/booleans"
 	"github.com/saschazar21/go-baas/db"
@@ -102,13 +103,20 @@ func handleToggleBooleanById(w http.ResponseWriter, r *http.Request, id string) 
 }
 
 func HandleBooleanById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+	segments := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
+	id := segments[len(segments)-1]
 
-	if id == "" {
+	if id == "" || id == "booleans" {
 		httpErr := errors.NewHTTPError(http.StatusBadRequest, &errors.BAD_REQUEST_ERROR)
 		httpErr.Write(w)
 		return
 	}
+
+	params := r.URL.Query()
+	params.Del("id")
+	params.Add("id", id)
+
+	r.URL.RawQuery = params.Encode()
 
 	switch r.Method {
 	case http.MethodGet:

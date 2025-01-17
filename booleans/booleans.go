@@ -71,6 +71,8 @@ func (b *Boolean) Save(client *redis.Client, ctx context.Context) (err error) {
 	}
 
 	if b.Id != nil && client.Exists(ctx, *b.Id).Val() == 0 {
+		log.Printf("Boolean with ID %s not found", *b.Id)
+
 		return errors.NewHTTPError(http.StatusNotFound, &errors.NOT_FOUND_ERROR)
 	}
 
@@ -131,6 +133,8 @@ func DeleteBoolean(client *redis.Client, ctx context.Context, id string) (err er
 
 func GetBoolean(client *redis.Client, ctx context.Context, id string) (b *Boolean, err error) {
 	if client.Exists(ctx, id).Val() == 0 {
+		log.Printf("Boolean with ID %s not found", id)
+
 		return b, errors.NewHTTPError(http.StatusNotFound, &errors.NOT_FOUND_ERROR)
 	}
 
