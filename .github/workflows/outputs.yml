@@ -18,7 +18,7 @@ jobs:
     name: New Version
     uses: ./.github/workflows/changelog.yml
     with:
-      args: -v --latest --strip all
+      args: -v --bump --unreleased
 
   outputs:
     name: Set outputs

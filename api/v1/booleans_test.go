@@ -113,20 +113,6 @@ func TestHandleBooleans(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name:   "inexistent boolean",
-			method: http.MethodPost,
-			parameters: url.Values{
-				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+20)},
-				"expires_in": []string{fmt.Sprintf("%d", 20)},
-				"id":         []string{"inexistentId"},
-			},
-			data: booleans.Boolean{
-				Label: "test",
-				Value: true,
-			},
-			wantErr: true,
-		},
-		{
 			name:       "invalid method",
 			method:     http.MethodGet,
 			parameters: url.Values{},

@@ -44,15 +44,13 @@ jobs:
         run: |
           go mod tidy
 
-          sed -i 's|require github.com/${{ github.repository }} v[0-9.]*[-a-zA-Z0-9]*|require github.com/${{ github.repository }} ${{ needs.changelog.outputs.version }}|g' go.mod
           git add go.mod go.sum
           git commit -m "Update go.mod go.sum [skip ci]"
           git push
 
       - name: Update version
         run: |
-          version="$(echo ${{ needs.outputs.outputs.version }} | sed 's|v||' )"
-          sed -i 's|version: "[0-9.]*[-a-zA-Z0-9]*"|version: "'"$version"'"|' api_v1.yml
+          sed -i 's|version: "[0-9.]*[-a-zA-Z0-9]*"|version: "${{ needs.outputs.outputs.version }}"|' api_v1.yml
 
           git add api_v1.yml
           git commit -m "Update api_v1.yml [skip ci]"
