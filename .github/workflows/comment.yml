@@ -1,0 +1,72 @@
+name: Comment on PR
+
+on:
+  workflow_call:
+    inputs:
+      netlify_deploy_id:
+        type: string
+      netlify_deploy_url:
+        type: string
+
+jobs:
+  comment:
+    name: Add Comment
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: ${{ github.event.pull_request.state == 'open' }}
+
+    steps:
+      - name: Prepare
+        id: prepare
+        run: |
+          logs="https://app.netlify.com/sites/go-webpush/deploys/${{ inputs.netlify_deploy_id }}"
+          function_logs="https://app.netlify.com/sites/go-webpush/logs/functions?scope=deploy:${{ inputs.netlify_deploy_id }}"
+          edge_function_logs="https://app.netlify.com/sites/go-webpush/logs/edge-functions?scope=deployid:${{ inputs.netlify_deploy_id }}"
+
+          cat << EOF > netlify.md
+          ## 📦 Netlify deployment
+
+          **🔗 Preview URL:** [**${{ inputs.netlify_deploy_url }}**](${{ inputs.netlify_deploy_url }})
+
+          | **Category**              | **Link**                                                                                    |
+          | :------------------------ | :------------------------------------------------------------------------------------------ |
+          | **👀 Deployment Preview** | <code>[${{ inputs.netlify_deploy_id }}]($logs)</code>                                       |
+          | **⚙️ Function Logs**       | <ul><li>[Functions]($function_logs)</li><li>[Edge Functions]($edge_function_logs)</li></ul> |
+          EOF
+
+      - name: Comment
+        id: comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { promises: fs } = require('fs');
+
+            // Find previous comment
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            const comment = comments.find(({ body }) => body.startsWith('Deployment preview ready!'));
+
+            // Remove comment
+            comment && await github.rest.issues.deleteComment({
+              comment_id: comment.id,
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            // Read prepared Netlify comment section 
+            const netlify = await fs.readFile('./netlify.md', 'utf-8').catch((_e) => '');
+
+            // Assemble comment body
+            const body = `Deployment preview ready!\n\n${netlify}`;
+
+            // Add comment
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
