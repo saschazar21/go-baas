@@ -62,7 +62,7 @@ jobs:
           sed -i 's|version: "[0-9.]*[-a-zA-Z0-9]*"|version: "${{ needs.outputs.outputs.version }}"|' api_v1.yml
 
           if ${{ github.ref != 'refs/heads/main' }}; then
-            sed -i 's|https://go-baas.netlify.app|https://${{ needs.outputs.outputs.short_sha }}-go-baas.netlify.app|' api_v1.yml
+            sed -i 's|https://go-baas.netlify.app|https://${{ needs.outputs.outputs.short_sha }}--go-baas.netlify.app|' api_v1.yml
           fi
 
       - name: Set deploy variables
