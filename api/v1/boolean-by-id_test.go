@@ -353,7 +353,7 @@ func TestHandleBooleanById(t *testing.T) {
 				name:    "missing id",
 				method:  http.MethodGet,
 				id:      "",
-				wantErr: http.StatusBadRequest,
+				wantErr: http.StatusNotFound,
 			},
 		}
 

@@ -29,8 +29,8 @@ func TestValidateBooleanParams(t *testing.T) {
 		{
 			name: "valid boolean params",
 			data: BooleanParams{
-				ExpiresAt: time.Now().Unix() + 20,
-				ExpiresIn: 20,
+				ExpiresAt: time.Now().Unix() + 120,
+				ExpiresIn: 120,
 				Id:        nil,
 			},
 			wantErr: false,
@@ -39,7 +39,7 @@ func TestValidateBooleanParams(t *testing.T) {
 			name: "invalid expires_at",
 			data: BooleanParams{
 				ExpiresAt: time.Now().Unix() - 1,
-				ExpiresIn: 20,
+				ExpiresIn: 120,
 				Id:        nil,
 			},
 			wantErr: true,
@@ -47,7 +47,7 @@ func TestValidateBooleanParams(t *testing.T) {
 		{
 			name: "invalid expires_in",
 			data: BooleanParams{
-				ExpiresAt: time.Now().Unix() + 20,
+				ExpiresAt: time.Now().Unix() + 120,
 				ExpiresIn: -20,
 				Id:        nil,
 			},
@@ -78,8 +78,8 @@ func TestValidateBoolean(t *testing.T) {
 				Label: "test",
 				Value: true,
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
-					ExpiresIn: 20,
+					ExpiresAt: time.Now().Unix() + 120,
+					ExpiresIn: 120,
 					Id:        nil,
 				},
 			},
@@ -90,7 +90,7 @@ func TestValidateBoolean(t *testing.T) {
 			data: Boolean{
 				Label: "test",
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
+					ExpiresAt: time.Now().Unix() + 120,
 					ExpiresIn: -1,
 					Id:        nil,
 				},
@@ -104,7 +104,7 @@ func TestValidateBoolean(t *testing.T) {
 				Value: false,
 				BooleanParams: &BooleanParams{
 					ExpiresAt: time.Now().Unix() - 1,
-					ExpiresIn: 20,
+					ExpiresIn: 120,
 					Id:        nil,
 				},
 			},
@@ -138,16 +138,16 @@ func TestParseBooleans(t *testing.T) {
 				"Content-Type": []string{"application/json"},
 			},
 			params: url.Values{
-				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+20)},
-				"expires_in": []string{"20"},
+				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+120)},
+				"expires_in": []string{"120"},
 			},
 			body: []byte(`{"label":"test","value":true}`),
 			cmp: Boolean{
 				Label: "test",
 				Value: true,
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
-					ExpiresIn: 20,
+					ExpiresAt: time.Now().Unix() + 120,
+					ExpiresIn: 120,
 					Id:        nil,
 				},
 			},
@@ -159,16 +159,16 @@ func TestParseBooleans(t *testing.T) {
 				"Content-Type": []string{"application/x-www-form-urlencoded"},
 			},
 			params: url.Values{
-				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+20)},
-				"expires_in": []string{"20"},
+				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+120)},
+				"expires_in": []string{"120"},
 			},
 			body: []byte(`label=test&value=true`),
 			cmp: Boolean{
 				Label: "test",
 				Value: true,
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
-					ExpiresIn: 20,
+					ExpiresAt: time.Now().Unix() + 120,
+					ExpiresIn: 120,
 					Id:        nil,
 				},
 			},
@@ -180,8 +180,8 @@ func TestParseBooleans(t *testing.T) {
 				"Content-Type": []string{"text/plain"},
 			},
 			params: url.Values{
-				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+20)},
-				"expires_in": []string{"20"},
+				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+120)},
+				"expires_in": []string{"120"},
 			},
 			body:    []byte(`{"label":"test","value":true}`),
 			cmp:     Boolean{},
@@ -193,7 +193,7 @@ func TestParseBooleans(t *testing.T) {
 				"Content-Type": []string{"application/json"},
 			},
 			params: url.Values{
-				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+20)},
+				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()+120)},
 				"expires_in": []string{"-20"},
 			},
 			body:    []byte(`{"label":"test","value":true}`),
@@ -207,7 +207,7 @@ func TestParseBooleans(t *testing.T) {
 			},
 			params: url.Values{
 				"expires_at": []string{fmt.Sprintf("%d", time.Now().Unix()-1)},
-				"expires_in": []string{"20"},
+				"expires_in": []string{"120"},
 			},
 			body:    []byte(`{"label":"test","value":true}`),
 			cmp:     Boolean{},
@@ -254,8 +254,8 @@ func TestBooleans(t *testing.T) {
 				Label: "test",
 				Value: true,
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
-					ExpiresIn: 20,
+					ExpiresAt: time.Now().Unix() + 120,
+					ExpiresIn: 120,
 					Id:        nil,
 				},
 			},
@@ -266,7 +266,7 @@ func TestBooleans(t *testing.T) {
 			data: Boolean{
 				Label: "test",
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
+					ExpiresAt: time.Now().Unix() + 120,
 					ExpiresIn: -1,
 					Id:        nil,
 				},
@@ -280,7 +280,7 @@ func TestBooleans(t *testing.T) {
 				Value: false,
 				BooleanParams: &BooleanParams{
 					ExpiresAt: time.Now().Unix() - 1,
-					ExpiresIn: 20,
+					ExpiresIn: 120,
 					Id:        nil,
 				},
 			},
@@ -292,8 +292,8 @@ func TestBooleans(t *testing.T) {
 				Label: "test",
 				Value: false,
 				BooleanParams: &BooleanParams{
-					ExpiresAt: time.Now().Unix() + 20,
-					ExpiresIn: 20,
+					ExpiresAt: time.Now().Unix() + 120,
+					ExpiresIn: 120,
 					Id:        &inexistentId,
 				},
 			},
