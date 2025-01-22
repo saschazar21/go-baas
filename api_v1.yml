@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Booleans-as-a-Service
-  version: "1.0.0"
+  version: ""
   description: |
     Booleans-as-a-Service provides a simplistic API to create, read, update and delete boolean values.
   license:
