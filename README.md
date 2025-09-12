@@ -3,7 +3,7 @@
   <strong>A RESTful web API for storing boolean values, written in Go. 🌐⚫⚪</strong>
   <br />
   <br />
-  <a href="https://go-baas.netlify.app"><img src="https://img.shields.io/badge/netlify-deployed-green" alt="Netlify Status"></a> <img alt="License" src="https://img.shields.io/github/license/saschazar21/go-web-baas">
+  <a href="https://go-baas.netlify.app"><img src="https://img.shields.io/badge/netlify-deployed-green" alt="Netlify Status"></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/saschazar21/go-baas"></a>
   <br />
   <br />
   <a href="https://app.netlify.com/start/deploy?repository=https://github.com/saschazar21/go-baas"><img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify"></a>
